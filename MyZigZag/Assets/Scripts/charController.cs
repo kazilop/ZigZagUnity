@@ -5,6 +5,7 @@ using UnityEngine;
 public class charController : MonoBehaviour
 {
     public Transform rayStart;
+    public GameObject crystalEffect;
 
     private Rigidbody rb;
     private bool walkingRight = true;
@@ -53,6 +54,11 @@ public class charController : MonoBehaviour
 
     private void Switch()
     {
+        if (!gameManager.gameStarted)
+        {
+            return ;
+        }
+
         walkingRight = !walkingRight;
 
         if (walkingRight)
@@ -62,5 +68,17 @@ public class charController : MonoBehaviour
         }
         else 
             transform.rotation = Quaternion.Euler(0,-45,0);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Crystal")
+        {
+            gameManager.IncreaseScore();
+
+            GameObject g = Instantiate(crystalEffect, rayStart.transform.position, Quaternion.identity);
+            Destroy(g, 1);
+            Destroy(other.gameObject);
+        }
     }
 }
