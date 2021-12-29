@@ -52,7 +52,7 @@ public class charController : MonoBehaviour
         }
     }
 
-    private void Switch()
+    public void Switch()
     {
         if (!gameManager.gameStarted)
         {
